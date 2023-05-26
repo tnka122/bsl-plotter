@@ -50,9 +50,7 @@ class ArmControl:
         return np.rad2deg(theta1), np.rad2deg(theta2)
 
 
-    def update_angles(self, th1, th2):
-
-        th3 = self.theta3
+    def update_angles(self, th1, th2, th3):
 
         name_upper_arm = "link_upper_arm_v7_1"
         name_fore_arm = "link_fore_arm_v4_1"
@@ -121,9 +119,4 @@ class ArmControl:
         br.sendTransform(t1)
         br.sendTransform(t2)
         br.sendTransform(t3)
-
-    
-    def up_pen(self):
-        self.theta3 = -20
-        self.update_angles(self.theta1, self.theta2)
 

@@ -67,7 +67,10 @@ def talker():
             # loop kara nukeru
             if key_str == "q":
                 break
-            
+        if key_str == key.UP:
+            str_to_pub = "PEN_UP"
+        if key_str == key.DOWN:
+            str_to_pub = "PEN_DOWN"
 
         pub.publish(str_to_pub)
         rospy.loginfo("str_to_pub: %s" % str_to_pub)
