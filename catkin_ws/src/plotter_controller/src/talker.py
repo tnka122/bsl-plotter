@@ -53,7 +53,7 @@ def talker():
 
         str_to_pub = None
 
-        command_str = "wasdq"
+        command_str = "wasdqr"
 
         if key_str in command_str:
             if key_str == "w":
@@ -64,6 +64,8 @@ def talker():
                 str_to_pub = "DOWN"
             if key_str == "d":
                 str_to_pub = "RIGHT"
+            if key_str == "r":
+                str_to_pub = "RESET"
             # loop kara nukeru
             if key_str == "q":
                 break

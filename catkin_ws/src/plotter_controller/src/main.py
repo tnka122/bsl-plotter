@@ -42,6 +42,8 @@ def callback(data):
         theta3 = max(theta3 - pen_delta, LIMIT_MIN_TH3)
     if data.data == "PEN_DOWN":
         theta3 = min(theta3 + pen_delta, LIMIT_MAX_TH3)
+    if data.data == "RESET":
+        x, y, theta3 = 100, 100, -20
 
 def main():
     global x
