@@ -17,13 +17,18 @@ LIMIT_MIN_X = 80
 LIMIT_MIN_Y = 80
 LIMIT_MAX_X = 240
 LIMIT_MAX_Y = 240
+LIMIT_MIN_TH3 = -20
+LIMIT_MAX_TH3 = 5
 x, y = 100, 100
+theta3 = -20
 
 def callback(data):
     global x
     global y
+    global theta3
 
     delta = 5
+    pen_delta = 1
     rospy.loginfo(rospy.get_caller_id() + 'recieved "%s"', data.data)
     if data.data == "UP":
         y = min(y + delta, LIMIT_MAX_Y)
@@ -33,10 +38,15 @@ def callback(data):
         x = max(x - delta, LIMIT_MIN_X)
     if data.data == "RIGHT":
         x = min(x + delta, LIMIT_MAX_X)
+    if data.data == "PEN_UP":
+        theta3 = max(theta3 - pen_delta, LIMIT_MIN_TH3)
+    if data.data == "PEN_DOWN":
+        theta3 = min(theta3 + pen_delta, LIMIT_MAX_TH3)
 
 def main():
     global x
     global y
+    global theta3
 
     rospy.init_node('ik_solver')
     publisher_angles = rospy.Publisher('joint_state', JointState, queue_size=10)
@@ -51,17 +61,13 @@ def main():
 
     arm = ArmControl(publisher_angles)
 
-    # up pen
-    #arm.up_pen()
-
     while not rospy.is_shutdown():
 
         print(x, y)
         theta1, theta2 = arm.solve_ik_deg(x, y)
 
-        #theta1 = 0.0
-        #theta2 = 0.0
-        arm.update_angles(theta1, theta2)
+        print(theta1, theta2, theta3)
+        arm.update_angles(theta1, theta2, theta3)
 
         t = t + (1/rate) #[sec]
 
